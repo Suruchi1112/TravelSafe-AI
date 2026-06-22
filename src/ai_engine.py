@@ -398,7 +398,12 @@ MOCK_DESTINATIONS = {
             "transport": 10.0,
             "activities": 15.0,
             "emergency_fund": 10.0
- COUNTRY_LANG_MAP = {
+        }
+    }
+}
+
+
+COUNTRY_LANG_MAP = {
     "japan": {
         "lang": "Japanese",
         "phrases": [
