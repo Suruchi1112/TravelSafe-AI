@@ -402,11 +402,132 @@ MOCK_DESTINATIONS = {
 }
 
 
+COUNTRY_LANG_MAP = {
+    "japan": {
+        "lang": "Japanese",
+        "phrases": [
+            {"phrase": "Konnichiwa", "pronunciation": "kon-nee-chee-wah", "meaning": "Hello"},
+            {"phrase": "Arigatou gozaimasu", "pronunciation": "ah-ree-gah-toe go-zy-mahs", "meaning": "Thank you"},
+            {"phrase": "Tasukete kudasai", "pronunciation": "tah-soo-keh-teh koo-dah-sigh", "meaning": "Please help me"},
+            {"phrase": "Eigo ga hanasemasu ka?", "pronunciation": "ay-go gah hah-nah-seh-mahs-kah", "meaning": "Do you speak English?"},
+            {"phrase": "O-tearai wa doko desu ka?", "pronunciation": "oh-tay-ah-rye wah doh-ko des kah", "meaning": "Where is the restroom?"}
+        ]
+    },
+    "france": {
+        "lang": "French",
+        "phrases": [
+            {"phrase": "Bonjour", "pronunciation": "bohn-zhoor", "meaning": "Hello"},
+            {"phrase": "Merci beaucoup", "pronunciation": "mair-see boh-koo", "meaning": "Thank you"},
+            {"phrase": "Aidez-moi, s'il vous plaît", "pronunciation": "ay-day mwah seel-voo-play", "meaning": "Please help me"},
+            {"phrase": "Parlez-vous anglais?", "pronunciation": "par-lay vooz ahng-lay", "meaning": "Do you speak English?"},
+            {"phrase": "Où sont les toilettes?", "pronunciation": "oo sohn lay twah-let", "meaning": "Where are the restrooms?"}
+        ]
+    },
+    "germany": {
+        "lang": "German",
+        "phrases": [
+            {"phrase": "Guten Tag", "pronunciation": "goo-ten tahg", "meaning": "Hello"},
+            {"phrase": "Vielen Dank", "pronunciation": "fee-len dank", "meaning": "Thank you"},
+            {"phrase": "Helfen Sie mir bitte", "pronunciation": "hel-fen zee meer bit-teh", "meaning": "Please help me"},
+            {"phrase": "Sprechen Sie Englisch?", "pronunciation": "shpreh-khen zee eng-lish", "meaning": "Do you speak English?"},
+            {"phrase": "Wo sind die Toiletten?", "pronunciation": "voh zint dee toy-let-ten", "meaning": "Where are the restrooms?"}
+        ]
+    },
+    "spain": {
+        "lang": "Spanish",
+        "phrases": [
+            {"phrase": "Hola", "pronunciation": "oh-lah", "meaning": "Hello"},
+            {"phrase": "Muchas gracias", "pronunciation": "moo-chas grah-syas", "meaning": "Thank you"},
+            {"phrase": "Ayúdeme, por favor", "pronunciation": "ah-yoo-deh-meh por fah-vor", "meaning": "Please help me"},
+            {"phrase": "¿Habla inglés?", "pronunciation": "ah-blah eeng-les", "meaning": "Do you speak English?"},
+            {"phrase": "¿Dónde están los baños?", "pronunciation": "dohn-deh es-tahn los bah-nyos", "meaning": "Where are the restrooms?"}
+        ]
+    },
+    "italy": {
+        "lang": "Italian",
+        "phrases": [
+            {"phrase": "Buongiorno", "pronunciation": "bwohn-johr-noh", "meaning": "Hello"},
+            {"phrase": "Grazie mille", "pronunciation": "grah-tsyeh meel-leh", "meaning": "Thank you"},
+            {"phrase": "Aiutatemi, per favore", "pronunciation": "eye-oo-tah-teh-mee pair fah-voh-reh", "meaning": "Please help me"},
+            {"phrase": "Parla inglese?", "pronunciation": "par-lah eeng-lay-zeh", "meaning": "Do you speak English?"},
+            {"phrase": "Dove sono i bagni?", "pronunciation": "doh-veh soh-noh ee bah-nyee", "meaning": "Where are the restrooms?"}
+        ]
+    },
+    "india": {
+        "lang": "Hindi",
+        "phrases": [
+            {"phrase": "Namaste", "pronunciation": "nah-mah-stay", "meaning": "Hello"},
+            {"phrase": "Dhanyawaad", "pronunciation": "dhan-yah-vaad", "meaning": "Thank you"},
+            {"phrase": "Kripya meri madad kijiye", "pronunciation": "krip-yah may-ree mah-dad kee-jee-yea", "meaning": "Please help me"},
+            {"phrase": "Kya aap English bolte hain?", "pronunciation": "kya ahp eng-lish bole-tay hain", "meaning": "Do you speak English?"},
+            {"phrase": "Toilet kahan hai?", "pronunciation": "toy-let kah-han hai", "meaning": "Where is the restroom?"}
+        ]
+    },
+    "thailand": {
+        "lang": "Thai",
+        "phrases": [
+            {"phrase": "Sawasdee", "pronunciation": "sah-wah-dee", "meaning": "Hello"},
+            {"phrase": "Khop khun", "pronunciation": "khob khoon", "meaning": "Thank you"},
+            {"phrase": "Chuay duay", "pronunciation": "choo-ay doo-ay", "meaning": "Please help me"},
+            {"phrase": "Poot pasa angkrit dai mai?", "pronunciation": "poot pah-sah ahng-krit die-my", "meaning": "Do you speak English?"},
+            {"phrase": "Hong nam yoo tee nai?", "pronunciation": "hong-nahm yoo tee-nye", "meaning": "Where is the restroom?"}
+        ]
+    },
+    "egypt": {
+        "lang": "Arabic",
+        "phrases": [
+            {"phrase": "Marhaban", "pronunciation": "mar-hah-ban", "meaning": "Hello"},
+            {"phrase": "Shukran", "pronunciation": "shok-ran", "meaning": "Thank you"},
+            {"phrase": "Sa'adni", "pronunciation": "sah-ed-nee", "meaning": "Please help me"},
+            {"phrase": "Hal tatakallam al-ingliziya?", "pronunciation": "hal tah-tah-kal-lam al-eeng-lee-zee-yah", "meaning": "Do you speak English?"},
+            {"phrase": "Ayn al-hammam?", "pronunciation": "ayn al-hahm-mam", "meaning": "Where is the restroom?"}
+        ]
+    },
+    "united kingdom": {
+        "lang": "English",
+        "phrases": [
+            {"phrase": "Hello", "pronunciation": "heh-loh", "meaning": "Hello"},
+            {"phrase": "Thank you", "pronunciation": "thangk yoo", "meaning": "Thank you"},
+            {"phrase": "Please help me", "pronunciation": "pleez help mee", "meaning": "Please help me"},
+            {"phrase": "Do you speak English?", "pronunciation": "doo yoo speek ing-glish", "meaning": "Do you speak English?"},
+            {"phrase": "Where is the restroom?", "pronunciation": "wair iz the rest-room", "meaning": "Where is the restroom?"}
+        ]
+    },
+    "united states": {
+        "lang": "English",
+        "phrases": [
+            {"phrase": "Hello", "pronunciation": "heh-loh", "meaning": "Hello"},
+            {"phrase": "Thank you", "pronunciation": "thangk yoo", "meaning": "Thank you"},
+            {"phrase": "Please help me", "pronunciation": "pleez help mee", "meaning": "Please help me"},
+            {"phrase": "Do you speak English?", "pronunciation": "doo yoo speek ing-glish", "meaning": "Do you speak English?"},
+            {"phrase": "Where is the restroom?", "pronunciation": "wair iz the rest-room", "meaning": "Where is the restroom?"}
+        ]
+    }
+}
+
+
 def _get_generic_fallback(destination, days, budget, travel_type, citizenship):
     """Generates a highly-accurate generic plan if the destination isn't cached."""
     dest_name = destination.title()
     currency = "INR" if "india" in destination.lower() else "USD"
     rate = 1.0 if currency == "INR" else 0.012
+    
+    # Resolve local language dynamically based on destination
+    dest_lower = destination.lower()
+    matched_country = None
+    for country in COUNTRY_LANG_MAP.keys():
+        if country in dest_lower:
+            matched_country = country
+            break
+    if not matched_country:
+        if any(x in dest_lower for x in ["london", "england", "uk", "us", "usa", "america", "canada", "australia", "singapore", "new zealand"]):
+            matched_country = "united kingdom"
+        else:
+            matched_country = "spain" # Default fallback
+            
+    lang_info = COUNTRY_LANG_MAP[matched_country]
+    local_lang = lang_info["lang"]
+    phrases = lang_info["phrases"]
     
     # Generic template customizer based on budget and type
     packing = [
@@ -439,7 +560,7 @@ def _get_generic_fallback(destination, days, budget, travel_type, citizenship):
             "risk_score": 28,
             "currency_code": currency,
             "exchange_rate_vs_usd": rate, # Acts as rate_vs_inr
-            "local_languages": ["Local Language / English widely understood"]
+            "local_languages": [local_lang]
         },
         "risk_scorecard": {
             "physical_safety": 85,
@@ -476,13 +597,7 @@ def _get_generic_fallback(destination, days, budget, travel_type, citizenship):
             "tourist_helpline": "N/A"
         },
         "packing_list": packing,
-        "pocket_phrases": [
-            {"phrase": "Hello / Namaste", "pronunciation": "Standard Local", "meaning": "Essential polite greeting"},
-            {"phrase": "Thank you / Dhanyawaad", "pronunciation": "Standard Local", "meaning": "Expressing gratitude"},
-            {"phrase": "Please help me", "pronunciation": "Standard Local", "meaning": "Urgent call for emergency help"},
-            {"phrase": "Where is the hospital?", "pronunciation": "Standard Local", "meaning": "Crucial safety query"},
-            {"phrase": "Do you speak English?", "pronunciation": "Standard Local", "meaning": "Finding assistance"}
-        ],
+        "pocket_phrases": phrases,
         "budget_allocation": {
             "accommodation": 35.0,
             "food": 25.0,

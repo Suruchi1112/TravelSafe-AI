@@ -338,15 +338,22 @@ if plan and trip_inputs:
         st.markdown("<div class='card-title'>🗣️ Safety & Emergency Language Pocket Guide</div>", unsafe_allow_html=True)
         st.markdown("<p style='font-size: 0.9rem; color: #94A3B8;'>Keep these phrases handy in case of emergencies or for basic polite conversation:</p>", unsafe_allow_html=True)
         
+        # Get the primary local language dynamically
+        local_langs = plan.get("trip_overview", {}).get("local_languages", [])
+        primary_lang = local_langs[0].split('/')[0].split(',')[0].strip() if local_langs else "Local Language"
+        
         phr_cols = st.columns(3)
         for i, phrase in enumerate(plan["pocket_phrases"]):
             col_idx = i % 3
             with phr_cols[col_idx]:
                 st.markdown(f"""
                 <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 6px; margin-bottom: 8px; border-left: 2px solid #00E5FF;">
-                    <div style="font-size: 1rem; color: #F8FAFC; font-weight: bold;">"{phrase['phrase']}"</div>
-                    <div style="font-size: 0.8rem; color: #94A3B8; font-style: italic;">Pronunciation: {phrase['pronunciation']}</div>
-                    <div style="font-size: 0.85rem; color: #00FF87; margin-top: 2px;">Meaning: {phrase['meaning']}</div>
+                    <div style="font-size: 0.95rem; color: #F8FAFC; font-weight: bold;">
+                        {primary_lang}: “{phrase['phrase']}” — English: {phrase['meaning']}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #94A3B8; font-style: italic; margin-top: 4px;">
+                        Pronunciation: {phrase['pronunciation']}
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
