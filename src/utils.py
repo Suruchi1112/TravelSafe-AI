@@ -174,7 +174,11 @@ Generated on: {datetime.today().strftime('%Y-%m-%d %H:%M:%S')}
 ## 🗣️ Emergency & Safety Language Pocket Guide
 """
     for phrase in plan_data.get("pocket_phrases", []):
-        report += f"* **Local Language**: {phrase.get('local_phrase', '')} — **English**: {phrase.get('english_meaning', '')} (Pronunciation: *{phrase.get('pronunciation', '')}*) | Category: {phrase.get('category', '')}\n"
+        local_phrase = phrase.get("local_phrase") or phrase.get("phrase") or "N/A"
+        english_meaning = phrase.get("english_meaning") or phrase.get("meaning") or "N/A"
+        pronunciation = phrase.get("pronunciation") or "N/A"
+        category = phrase.get("category") or "General"
+        report += f"* **Local Language**: {local_phrase} — **English Meaning**: {english_meaning} (Pronunciation: *{pronunciation}*) | Category: {category}\n"
 
     report += f"""
 ---
