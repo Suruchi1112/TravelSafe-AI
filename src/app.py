@@ -14,7 +14,7 @@ from utils import (
 
 # Page configuration
 st.set_page_config(
-    page_title="TravelSafe AI - Intelligent Travel Planning & Safety Assistant",
+    page_title="TravelSafe-AI - Intelligent Travel Planning and Safety Assistant",
     page_icon="🌍",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -75,7 +75,7 @@ with st.sidebar:
     st.markdown("---")
     
     # Trip Planning Inputs
-    st.subheader("✈️ Trip Parameters (Indian Edition)")
+    st.subheader("✈️ Trip Parameters")
     
     source = st.text_input("Source Location", value="New Delhi, India", placeholder="City, Country")
     destination = st.text_input("Destination City", value="Goa, India", placeholder="City, Country")
@@ -104,8 +104,8 @@ with st.sidebar:
     generate_btn = st.button("🗺️ Generate Safe Itinerary", use_container_width=True)
 
 # Main Screen Layout
-st.markdown("<div class='app-title'>TravelSafe AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='app-subtitle'>Intelligent Travel Planning & Safety Assistant (Indian Edition)</div>", unsafe_allow_html=True)
+st.markdown("<div class='app-title'>TravelSafe-AI</div>", unsafe_allow_html=True)
+st.markdown("<div class='app-subtitle'>Intelligent Travel Planning and Safety Assistant</div>", unsafe_allow_html=True)
 
 # Run generation process
 if generate_btn:

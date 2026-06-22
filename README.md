@@ -1,7 +1,7 @@
-# TravelSafe AI – Intelligent Travel Planning & Safety Assistant
+# TravelSafe-AI – Intelligent Travel Planning and Safety Assistant
 
 <p align="center">
-  <img src="assets/logo.png" width="250" alt="TravelSafe AI Logo" />
+  <img src="assets/logo.png" width="250" alt="TravelSafe-AI Logo" />
 </p>
 
 <p align="center">

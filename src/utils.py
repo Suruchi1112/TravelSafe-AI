@@ -99,7 +99,7 @@ def generate_offline_report(inputs, plan_data, budget_info):
     """
     days = (inputs["end_date"] - inputs["start_date"]).days + 1
     
-    report = f"""# TravelSafe AI - Trip Report & Safety Briefing (Indian Edition)
+    report = f"""# TravelSafe-AI - Trip Report & Safety Briefing
 Generated on: {datetime.today().strftime('%Y-%m-%d %H:%M:%S')}
 
 ## 🌍 Trip Summary
