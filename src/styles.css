@@ -1,0 +1,173 @@
+/* Custom Styling for TravelSafe AI */
+
+/* Main titles and headers */
+.app-title {
+    background: linear-gradient(135deg, #00E5FF 0%, #00FF87 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 2px;
+}
+
+.app-subtitle {
+    color: #94A3B8;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+/* Glassmorphism Cards */
+.card {
+    background: rgba(22, 31, 56, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 229, 255, 0.3);
+}
+
+.card-title {
+    color: #00E5FF;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Key Metrics Dashboard Card */
+.metric-box {
+    background: linear-gradient(145deg, #161F38 0%, #0D1527 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.metric-value {
+    color: #F8FAFC;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.metric-label {
+    color: #94A3B8;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Risk Badges */
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-low {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-moderate {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-high {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Timeline/Itinerary Styling */
+.itinerary-day {
+    border-left: 3px solid #00E5FF;
+    padding-left: 20px;
+    margin-left: 10px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.itinerary-day::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: #00A3FF;
+    border: 3px solid #0A0F1D;
+}
+
+.itinerary-day-title {
+    color: #00E5FF;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.activity-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border-left: 3px solid #00FF87;
+}
+
+/* Embassy Contact Details */
+.embassy-card {
+    background: rgba(0, 229, 255, 0.05);
+    border-left: 4px solid #00E5FF;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 15px;
+}
+
+/* Callout Styles */
+.pro-tip {
+    background: rgba(0, 255, 135, 0.05);
+    border-left: 4px solid #00FF87;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.warning-callout {
+    background: rgba(239, 68, 68, 0.05);
+    border-left: 4px solid #EF4444;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 10px;
+}
+
+/* Compact grid containers */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
