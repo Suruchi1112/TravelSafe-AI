@@ -2,6 +2,7 @@ import json
 import os
 import google.generativeai as genai
 from datetime import datetime
+import streamlit as st
 
 # Pre-compiled high-quality travel data for demo mode
 MOCK_DESTINATIONS = {
@@ -397,113 +398,223 @@ MOCK_DESTINATIONS = {
             "transport": 10.0,
             "activities": 15.0,
             "emergency_fund": 10.0
-        }
-    }
-}
-
-
-COUNTRY_LANG_MAP = {
+ COUNTRY_LANG_MAP = {
     "japan": {
         "lang": "Japanese",
         "phrases": [
-            {"phrase": "Konnichiwa", "pronunciation": "kon-nee-chee-wah", "meaning": "Hello"},
-            {"phrase": "Arigatou gozaimasu", "pronunciation": "ah-ree-gah-toe go-zy-mahs", "meaning": "Thank you"},
-            {"phrase": "Tasukete kudasai", "pronunciation": "tah-soo-keh-teh koo-dah-sigh", "meaning": "Please help me"},
-            {"phrase": "Eigo ga hanasemasu ka?", "pronunciation": "ay-go gah hah-nah-seh-mahs-kah", "meaning": "Do you speak English?"},
-            {"phrase": "O-tearai wa doko desu ka?", "pronunciation": "oh-tay-ah-rye wah doh-ko des kah", "meaning": "Where is the restroom?"}
+            {"local_phrase": "こんにちは", "english_meaning": "Hello / Namaste", "pronunciation": "Konnichiwa", "category": "Greeting"},
+            {"local_phrase": "ありがとう", "english_meaning": "Thank you", "pronunciation": "Arigatou", "category": "Courtesy"},
+            {"local_phrase": "さようなら", "english_meaning": "Goodbye", "pronunciation": "Sayounara", "category": "Greeting"},
+            {"local_phrase": "助けて！", "english_meaning": "Help!", "pronunciation": "Tasukete!", "category": "Emergency"},
+            {"local_phrase": "警察を呼んでください", "english_meaning": "Call the police", "pronunciation": "Keisatsu o yonde kudasai", "category": "Emergency"},
+            {"local_phrase": "救急車を呼んでください", "english_meaning": "Call an ambulance", "pronunciation": "Kyūkyūsha o yonde kudasai", "category": "Emergency"},
+            {"local_phrase": "病院はどこですか？", "english_meaning": "Where is the hospital?", "pronunciation": "Byōin wa doko desu ka?", "category": "Emergency"},
+            {"local_phrase": "道に迷いました", "english_meaning": "I am lost", "pronunciation": "Michi ni mayoimashita", "category": "Navigation"},
+            {"local_phrase": "英語を話せますか？", "english_meaning": "Do you speak English?", "pronunciation": "Eigo o hanasemasu ka?", "category": "Communication"},
+            {"local_phrase": "これはいくらですか？", "english_meaning": "How much does this cost?", "pronunciation": "Kore wa ikura desu ka?", "category": "Shopping"}
         ]
     },
     "france": {
         "lang": "French",
         "phrases": [
-            {"phrase": "Bonjour", "pronunciation": "bohn-zhoor", "meaning": "Hello"},
-            {"phrase": "Merci beaucoup", "pronunciation": "mair-see boh-koo", "meaning": "Thank you"},
-            {"phrase": "Aidez-moi, s'il vous plaît", "pronunciation": "ay-day mwah seel-voo-play", "meaning": "Please help me"},
-            {"phrase": "Parlez-vous anglais?", "pronunciation": "par-lay vooz ahng-lay", "meaning": "Do you speak English?"},
-            {"phrase": "Où sont les toilettes?", "pronunciation": "oo sohn lay twah-let", "meaning": "Where are the restrooms?"}
-        ]
-    },
-    "germany": {
-        "lang": "German",
-        "phrases": [
-            {"phrase": "Guten Tag", "pronunciation": "goo-ten tahg", "meaning": "Hello"},
-            {"phrase": "Vielen Dank", "pronunciation": "fee-len dank", "meaning": "Thank you"},
-            {"phrase": "Helfen Sie mir bitte", "pronunciation": "hel-fen zee meer bit-teh", "meaning": "Please help me"},
-            {"phrase": "Sprechen Sie Englisch?", "pronunciation": "shpreh-khen zee eng-lish", "meaning": "Do you speak English?"},
-            {"phrase": "Wo sind die Toiletten?", "pronunciation": "voh zint dee toy-let-ten", "meaning": "Where are the restrooms?"}
-        ]
-    },
-    "spain": {
-        "lang": "Spanish",
-        "phrases": [
-            {"phrase": "Hola", "pronunciation": "oh-lah", "meaning": "Hello"},
-            {"phrase": "Muchas gracias", "pronunciation": "moo-chas grah-syas", "meaning": "Thank you"},
-            {"phrase": "Ayúdeme, por favor", "pronunciation": "ah-yoo-deh-meh por fah-vor", "meaning": "Please help me"},
-            {"phrase": "¿Habla inglés?", "pronunciation": "ah-blah eeng-les", "meaning": "Do you speak English?"},
-            {"phrase": "¿Dónde están los baños?", "pronunciation": "dohn-deh es-tahn los bah-nyos", "meaning": "Where are the restrooms?"}
-        ]
-    },
-    "italy": {
-        "lang": "Italian",
-        "phrases": [
-            {"phrase": "Buongiorno", "pronunciation": "bwohn-johr-noh", "meaning": "Hello"},
-            {"phrase": "Grazie mille", "pronunciation": "grah-tsyeh meel-leh", "meaning": "Thank you"},
-            {"phrase": "Aiutatemi, per favore", "pronunciation": "eye-oo-tah-teh-mee pair fah-voh-reh", "meaning": "Please help me"},
-            {"phrase": "Parla inglese?", "pronunciation": "par-lah eeng-lay-zeh", "meaning": "Do you speak English?"},
-            {"phrase": "Dove sono i bagni?", "pronunciation": "doh-veh soh-noh ee bah-nyee", "meaning": "Where are the restrooms?"}
+            {"local_phrase": "Bonjour", "english_meaning": "Hello / Namaste", "pronunciation": "Bonjour", "category": "Greeting"},
+            {"local_phrase": "Merci", "english_meaning": "Thank you", "pronunciation": "Merci", "category": "Courtesy"},
+            {"local_phrase": "Au revoir", "english_meaning": "Goodbye", "pronunciation": "Au revoir", "category": "Greeting"},
+            {"local_phrase": "Au secours !", "english_meaning": "Help!", "pronunciation": "Au secours", "category": "Emergency"},
+            {"local_phrase": "Appelez la police", "english_meaning": "Call the police", "pronunciation": "Appelez la police", "category": "Emergency"},
+            {"local_phrase": "Appelez une ambulance", "english_meaning": "Call an ambulance", "pronunciation": "Appelez une ambulance", "category": "Emergency"},
+            {"local_phrase": "Où est l'hôpital ?", "english_meaning": "Where is the hospital?", "pronunciation": "Ou est l'hopital", "category": "Emergency"},
+            {"local_phrase": "Je suis perdu", "english_meaning": "I am lost", "pronunciation": "Je suis perdu", "category": "Navigation"},
+            {"local_phrase": "Parlez-vous anglais ?", "english_meaning": "Do you speak English?", "pronunciation": "Parlez-vous anglais", "category": "Communication"},
+            {"local_phrase": "Combien ça coûte ?", "english_meaning": "How much does this cost?", "pronunciation": "Combien ca coute", "category": "Shopping"}
         ]
     },
     "india": {
         "lang": "Hindi",
         "phrases": [
-            {"phrase": "Namaste", "pronunciation": "nah-mah-stay", "meaning": "Hello"},
-            {"phrase": "Dhanyawaad", "pronunciation": "dhan-yah-vaad", "meaning": "Thank you"},
-            {"phrase": "Kripya meri madad kijiye", "pronunciation": "krip-yah may-ree mah-dad kee-jee-yea", "meaning": "Please help me"},
-            {"phrase": "Kya aap English bolte hain?", "pronunciation": "kya ahp eng-lish bole-tay hain", "meaning": "Do you speak English?"},
-            {"phrase": "Toilet kahan hai?", "pronunciation": "toy-let kah-han hai", "meaning": "Where is the restroom?"}
+            {"local_phrase": "नमस्ते", "english_meaning": "Hello / Namaste", "pronunciation": "Namaste", "category": "Greeting"},
+            {"local_phrase": "धन्यवाद", "english_meaning": "Thank you", "pronunciation": "Dhanyawaad", "category": "Courtesy"},
+            {"local_phrase": "अलविदा", "english_meaning": "Goodbye", "pronunciation": "Alvida", "category": "Greeting"},
+            {"local_phrase": "मदद!", "english_meaning": "Help!", "pronunciation": "Madad!", "category": "Emergency"},
+            {"local_phrase": "पुलिस को बुलाओ", "english_meaning": "Call the police", "pronunciation": "Police ko bulao", "category": "Emergency"},
+            {"local_phrase": "एम्बुलेंस बुलाओ", "english_meaning": "Call an ambulance", "pronunciation": "Ambulance bulao", "category": "Emergency"},
+            {"local_phrase": "अस्पताल कहाँ है?", "english_meaning": "Where is the hospital?", "pronunciation": "Aspatal kahan hai?", "category": "Emergency"},
+            {"local_phrase": "मैं खो गया हूँ", "english_meaning": "I am lost", "pronunciation": "Main kho gaya hoon", "category": "Navigation"},
+            {"local_phrase": "क्या आप अंग्रेज़ी बोलते हैं?", "english_meaning": "Do you speak English?", "pronunciation": "Kya aap angrezi bolte hain?", "category": "Communication"},
+            {"local_phrase": "यह कितने का है?", "english_meaning": "How much does this cost?", "pronunciation": "Yeh kitne ka hai?", "category": "Shopping"}
+        ]
+    },
+    "germany": {
+        "lang": "German",
+        "phrases": [
+            {"local_phrase": "Guten Tag", "english_meaning": "Hello / Namaste", "pronunciation": "Guten Tag", "category": "Greeting"},
+            {"local_phrase": "Vielen Dank", "english_meaning": "Thank you", "pronunciation": "Vielen Dank", "category": "Courtesy"},
+            {"local_phrase": "Auf Wiedersehen", "english_meaning": "Goodbye", "pronunciation": "Auf Wiedersehen", "category": "Greeting"},
+            {"local_phrase": "Hilfe!", "english_meaning": "Help!", "pronunciation": "Hilfe", "category": "Emergency"},
+            {"local_phrase": "Rufen Sie die Polizei", "english_meaning": "Call the police", "pronunciation": "Rufen Sie die Polizei", "category": "Emergency"},
+            {"local_phrase": "Rufen Sie einen Krankenwagen", "english_meaning": "Call an ambulance", "pronunciation": "Rufen Sie einen Krankenwagen", "category": "Emergency"},
+            {"local_phrase": "Wo ist das Krankenhaus?", "english_meaning": "Where is the hospital?", "pronunciation": "Wo ist das Krankenhaus", "category": "Emergency"},
+            {"local_phrase": "Ich habe mich verlaufen", "english_meaning": "I am lost", "pronunciation": "Ich habe mich verlaufen", "category": "Navigation"},
+            {"local_phrase": "Sprechen Sie Englisch?", "english_meaning": "Do you speak English?", "pronunciation": "Sprechen Sie Englisch", "category": "Communication"},
+            {"local_phrase": "Wie viel kostet das?", "english_meaning": "How much does this cost?", "pronunciation": "Wie viel kostet das", "category": "Shopping"}
+        ]
+    },
+    "spain": {
+        "lang": "Spanish",
+        "phrases": [
+            {"local_phrase": "Hola", "english_meaning": "Hello / Namaste", "pronunciation": "Hola", "category": "Greeting"},
+            {"local_phrase": "Muchas gracias", "english_meaning": "Thank you", "pronunciation": "Muchas gracias", "category": "Courtesy"},
+            {"local_phrase": "Adiós", "english_meaning": "Goodbye", "pronunciation": "Adios", "category": "Greeting"},
+            {"local_phrase": "¡Ayuda!", "english_meaning": "Help!", "pronunciation": "Ayuda", "category": "Emergency"},
+            {"local_phrase": "Llame a la policía", "english_meaning": "Call the police", "pronunciation": "Llame a la policia", "category": "Emergency"},
+            {"local_phrase": "Llame a una ambulancia", "english_meaning": "Call an ambulance", "pronunciation": "Llame a una ambulancia", "category": "Emergency"},
+            {"local_phrase": "¿Dónde está el hospital?", "english_meaning": "Where is the hospital?", "pronunciation": "Donde esta el hospital", "category": "Emergency"},
+            {"local_phrase": "Estoy perdido", "english_meaning": "I am lost", "pronunciation": "Estoy perdido", "category": "Navigation"},
+            {"local_phrase": "¿Habla inglés?", "english_meaning": "Do you speak English?", "pronunciation": "Habla ingles", "category": "Communication"},
+            {"local_phrase": "¿Cuánto cuesta esto?", "english_meaning": "How much does this cost?", "pronunciation": "Cuanto cuesta esto", "category": "Shopping"}
+        ]
+    },
+    "italy": {
+        "lang": "Italian",
+        "phrases": [
+            {"local_phrase": "Buongiorno", "english_meaning": "Hello / Namaste", "pronunciation": "Buongiorno", "category": "Greeting"},
+            {"local_phrase": "Grazie mille", "english_meaning": "Thank you", "pronunciation": "Grazie mille", "category": "Courtesy"},
+            {"local_phrase": "Arrivederci", "english_meaning": "Goodbye", "pronunciation": "Arrivederci", "category": "Greeting"},
+            {"local_phrase": "Aiuto!", "english_meaning": "Help!", "pronunciation": "Aiuto", "category": "Emergency"},
+            {"local_phrase": "Chiami la polizia", "english_meaning": "Call the police", "pronunciation": "Chiami la polizia", "category": "Emergency"},
+            {"local_phrase": "Chiami un'ambulanza", "english_meaning": "Call an ambulance", "pronunciation": "Chiami un'ambulanza", "category": "Emergency"},
+            {"local_phrase": "Dov'è l'ospedale?", "english_meaning": "Where is the hospital?", "pronunciation": "Dov'e l'ospedale", "category": "Emergency"},
+            {"local_phrase": "Mi sono perso", "english_meaning": "I am lost", "pronunciation": "Mi sono perso", "category": "Navigation"},
+            {"local_phrase": "Parla inglese?", "english_meaning": "Do you speak English?", "pronunciation": "Parla inglese", "category": "Communication"},
+            {"local_phrase": "Quanto costa questo?", "english_meaning": "How much does this cost?", "pronunciation": "Quanto costa questo", "category": "Shopping"}
         ]
     },
     "thailand": {
         "lang": "Thai",
         "phrases": [
-            {"phrase": "Sawasdee", "pronunciation": "sah-wah-dee", "meaning": "Hello"},
-            {"phrase": "Khop khun", "pronunciation": "khob khoon", "meaning": "Thank you"},
-            {"phrase": "Chuay duay", "pronunciation": "choo-ay doo-ay", "meaning": "Please help me"},
-            {"phrase": "Poot pasa angkrit dai mai?", "pronunciation": "poot pah-sah ahng-krit die-my", "meaning": "Do you speak English?"},
-            {"phrase": "Hong nam yoo tee nai?", "pronunciation": "hong-nahm yoo tee-nye", "meaning": "Where is the restroom?"}
+            {"local_phrase": "สวัสดี", "english_meaning": "Hello / Namaste", "pronunciation": "Sawasdee", "category": "Greeting"},
+            {"local_phrase": "ขอบคุณ", "english_meaning": "Thank you", "pronunciation": "Khob khun", "category": "Courtesy"},
+            {"local_phrase": "ลาก่อน", "english_meaning": "Goodbye", "pronunciation": "La-gorn", "category": "Greeting"},
+            {"local_phrase": "ช่วยด้วย!", "english_meaning": "Help!", "pronunciation": "Chuay duay!", "category": "Emergency"},
+            {"local_phrase": "โทรเรียกตำรวจ", "english_meaning": "Call the police", "pronunciation": "Tho riak tam-ruat", "category": "Emergency"},
+            {"local_phrase": "โทรเรียกรถพยาบาล", "english_meaning": "Call an ambulance", "pronunciation": "Tho riak rot pha-ya-ban", "category": "Emergency"},
+            {"local_phrase": "โรงพยาบาลอยู่ที่ไหน?", "english_meaning": "Where is the hospital?", "pronunciation": "Rong pha-ya-ban yoo tee-nai?", "category": "Emergency"},
+            {"local_phrase": "ฉันหลงทาง", "english_meaning": "I am lost", "pronunciation": "Chan long thang", "category": "Navigation"},
+            {"local_phrase": "คุณพูดภาษาอังกฤษได้ไหม?", "english_meaning": "Do you speak English?", "pronunciation": "Khun poot pah-sah ahng-grit dai-mai?", "category": "Communication"},
+            {"local_phrase": "ราคาเท่าไหร่?", "english_meaning": "How much does this cost?", "pronunciation": "Ra-kha tao-hrai?", "category": "Shopping"}
         ]
     },
     "egypt": {
         "lang": "Arabic",
         "phrases": [
-            {"phrase": "Marhaban", "pronunciation": "mar-hah-ban", "meaning": "Hello"},
-            {"phrase": "Shukran", "pronunciation": "shok-ran", "meaning": "Thank you"},
-            {"phrase": "Sa'adni", "pronunciation": "sah-ed-nee", "meaning": "Please help me"},
-            {"phrase": "Hal tatakallam al-ingliziya?", "pronunciation": "hal tah-tah-kal-lam al-eeng-lee-zee-yah", "meaning": "Do you speak English?"},
-            {"phrase": "Ayn al-hammam?", "pronunciation": "ayn al-hahm-mam", "meaning": "Where is the restroom?"}
+            {"local_phrase": "مرحباً", "english_meaning": "Hello / Namaste", "pronunciation": "Marhaban", "category": "Greeting"},
+            {"local_phrase": "شكراً", "english_meaning": "Thank you", "pronunciation": "Shukran", "category": "Courtesy"},
+            {"local_phrase": "مع السلامة", "english_meaning": "Goodbye", "pronunciation": "Ma'as salama", "category": "Greeting"},
+            {"local_phrase": "النجدة!", "english_meaning": "Help!", "pronunciation": "An-najda!", "category": "Emergency"},
+            {"local_phrase": "اتصل بالشرطة", "english_meaning": "Call the police", "pronunciation": "Ittasil bish-shorta", "category": "Emergency"},
+            {"local_phrase": "اتصل بالإسعاف", "english_meaning": "Call an ambulance", "pronunciation": "Ittasil bil-is'aaf", "category": "Emergency"},
+            {"local_phrase": "أين المستشفى؟", "english_meaning": "Where is the hospital?", "pronunciation": "Ayna al-mustashfa?", "category": "Emergency"},
+            {"local_phrase": "أنا تائه", "english_meaning": "I am lost", "pronunciation": "Ana ta'eh", "category": "Navigation"},
+            {"local_phrase": "هل تتحدث الإنجليزية؟", "english_meaning": "Do you speak English?", "pronunciation": "Hal tatahaddath al-ingliziya?", "category": "Communication"},
+            {"local_phrase": "بكم هذا؟", "english_meaning": "How much does this cost?", "pronunciation": "Bikam hadha?", "category": "Shopping"}
         ]
     },
     "united kingdom": {
         "lang": "English",
         "phrases": [
-            {"phrase": "Hello", "pronunciation": "heh-loh", "meaning": "Hello"},
-            {"phrase": "Thank you", "pronunciation": "thangk yoo", "meaning": "Thank you"},
-            {"phrase": "Please help me", "pronunciation": "pleez help mee", "meaning": "Please help me"},
-            {"phrase": "Do you speak English?", "pronunciation": "doo yoo speek ing-glish", "meaning": "Do you speak English?"},
-            {"phrase": "Where is the restroom?", "pronunciation": "wair iz the rest-room", "meaning": "Where is the restroom?"}
-        ]
-    },
-    "united states": {
-        "lang": "English",
-        "phrases": [
-            {"phrase": "Hello", "pronunciation": "heh-loh", "meaning": "Hello"},
-            {"phrase": "Thank you", "pronunciation": "thangk yoo", "meaning": "Thank you"},
-            {"phrase": "Please help me", "pronunciation": "pleez help mee", "meaning": "Please help me"},
-            {"phrase": "Do you speak English?", "pronunciation": "doo yoo speek ing-glish", "meaning": "Do you speak English?"},
-            {"phrase": "Where is the restroom?", "pronunciation": "wair iz the rest-room", "meaning": "Where is the restroom?"}
+            {"local_phrase": "Hello", "english_meaning": "Hello / Namaste", "pronunciation": "Hello", "category": "Greeting"},
+            {"local_phrase": "Thank you", "english_meaning": "Thank you", "pronunciation": "Thank you", "category": "Courtesy"},
+            {"local_phrase": "Goodbye", "english_meaning": "Goodbye", "pronunciation": "Goodbye", "category": "Greeting"},
+            {"local_phrase": "Help!", "english_meaning": "Help!", "pronunciation": "Help", "category": "Emergency"},
+            {"local_phrase": "Call the police", "english_meaning": "Call the police", "pronunciation": "Call the police", "category": "Emergency"},
+            {"local_phrase": "Call an ambulance", "english_meaning": "Call an ambulance", "pronunciation": "Call an ambulance", "category": "Emergency"},
+            {"local_phrase": "Where is the hospital?", "english_meaning": "Where is the hospital?", "pronunciation": "Where is the hospital", "category": "Emergency"},
+            {"local_phrase": "I am lost", "english_meaning": "I am lost", "pronunciation": "I am lost", "category": "Navigation"},
+            {"local_phrase": "Do you speak English?", "english_meaning": "Do you speak English?", "pronunciation": "Do you speak English", "category": "Communication"},
+            {"local_phrase": "How much does this cost?", "english_meaning": "How much does this cost?", "pronunciation": "How much does this cost", "category": "Shopping"}
         ]
     }
 }
+
+
+@st.cache_data(show_spinner=False)
+def translate_pocket_phrases(destination, api_key=None):
+    """
+    Translates and transliterates 10 standard phrases using Gemini or cached local data.
+    """
+    dest_lower = destination.lower()
+    
+    # 1. Match local mock databases
+    matched_country = None
+    for country in COUNTRY_LANG_MAP.keys():
+        if country in dest_lower:
+            matched_country = country
+            break
+            
+    if not matched_country:
+        if any(x in dest_lower for x in ["london", "england", "uk", "us", "usa", "america", "canada", "australia", "singapore", "new zealand"]):
+            matched_country = "united kingdom"
+            
+    if matched_country:
+        return COUNTRY_LANG_MAP[matched_country]["phrases"]
+        
+    # 2. Call Gemini API if key is present
+    if api_key and api_key.strip():
+        try:
+            genai.configure(api_key=api_key.strip())
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            prompt = f"""
+            Identify the primary local language of {destination}.
+            Translate and transliterate (provide Romanized pronunciation) the following 10 English phrases into that local language script.
+            
+            Phrases to translate:
+            1. "Hello" -> Meaning: "Hello / Namaste", Category: "Greeting"
+            2. "Thank you" -> Meaning: "Thank you", Category: "Courtesy"
+            3. "Goodbye" -> Meaning: "Goodbye", Category: "Greeting"
+            4. "Help!" -> Meaning: "Help!", Category: "Emergency"
+            5. "Call the police" -> Meaning: "Call the police", Category: "Emergency"
+            6. "Call an ambulance" -> Meaning: "Call an ambulance", Category: "Emergency"
+            7. "Where is the hospital?" -> Meaning: "Where is the hospital?", Category: "Emergency"
+            8. "I am lost" -> Meaning: "I am lost", Category: "Navigation"
+            9. "Do you speak English?" -> Meaning: "Do you speak English?", Category: "Communication"
+            10. "How much does this cost?" -> Meaning: "How much does this cost?", Category: "Shopping"
+
+            You MUST respond with a valid JSON array only. Do not write markdown, code blocks (other than ```json), or explanations. The JSON array must contain exactly 10 objects, each matching the following schema:
+            [
+              {{
+                "local_phrase": "translated phrase in the local native script (e.g. Kanji/Devanagari/Arabic/Latin)",
+                "english_meaning": "the English meaning/phrase (exactly as requested above)",
+                "pronunciation": "the Romanized pronunciation/transliteration of the local phrase",
+                "category": "the phrase category (exactly as requested above)"
+              }}
+            ]
+            """
+            
+            response = model.generate_content(
+                prompt,
+                generation_config={"response_mime_type": "application/json"}
+            )
+            
+            phrases_list = json.loads(response.text)
+            if isinstance(phrases_list, list) and len(phrases_list) == 10:
+                return phrases_list
+        except Exception as e:
+            print(f"Gemini translation failed for {destination}: {e}. Falling back to default Spanish.")
+            
+    # 3. Default fallback to Spanish
+    return [
+        {"local_phrase": "Hola", "english_meaning": "Hello / Namaste", "pronunciation": "Hola", "category": "Greeting"},
+        {"local_phrase": "Gracias", "english_meaning": "Thank you", "pronunciation": "Gracias", "category": "Courtesy"},
+        {"local_phrase": "Adiós", "english_meaning": "Goodbye", "pronunciation": "Adios", "category": "Greeting"},
+        {"local_phrase": "¡Ayuda!", "english_meaning": "Help!", "pronunciation": "Ayuda", "category": "Emergency"},
+        {"local_phrase": "Llame a la policía", "english_meaning": "Call the police", "pronunciation": "Llame a la policia", "category": "Emergency"},
+        {"local_phrase": "Llame a una ambulancia", "english_meaning": "Call an ambulance", "pronunciation": "Llame a una ambulancia", "category": "Emergency"},
+        {"local_phrase": "¿Dónde está el hospital?", "english_meaning": "Where is the hospital?", "pronunciation": "Donde esta el hospital", "category": "Emergency"},
+        {"local_phrase": "Estoy perdido", "english_meaning": "I am lost", "pronunciation": "Estoy perdido", "category": "Navigation"},
+        {"local_phrase": "¿Habla inglés?", "english_meaning": "Do you speak English?", "pronunciation": "Habla ingles", "category": "Communication"},
+        {"local_phrase": "¿Cuánto cuesta esto?", "english_meaning": "How much does this cost?", "pronunciation": "Cuanto cuesta esto", "category": "Shopping"}
+    ]
 
 
 def _get_generic_fallback(destination, days, budget, travel_type, citizenship):
@@ -733,6 +844,11 @@ def generate_travel_plan(inputs, api_key=None):
             for idx, day_plan in enumerate(data.get("itinerary", [])):
                 day_plan["day"] = idx + 1
             
+            try:
+                data["pocket_phrases"] = translate_pocket_phrases(destination, api_key)
+            except Exception as e:
+                print(f"Failed to dynamically translate pocket phrases in live mode: {e}")
+            
             return data
             
         except Exception as e:
@@ -797,5 +913,10 @@ def generate_travel_plan(inputs, api_key=None):
         pass
     else:
         base_data["embassy_info"]["embassy_name"] = f"Representative Office of {citizenship.title()} in {destination.title()}"
+    
+    try:
+        base_data["pocket_phrases"] = translate_pocket_phrases(destination, api_key)
+    except Exception as e:
+        print(f"Failed to dynamically translate pocket phrases in fallback mode: {e}")
     
     return base_data
